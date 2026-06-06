@@ -24,6 +24,13 @@ RUN cd etcdctl  && go build -trimpath -ldflags="-s -w" -o /out/etcdctl .
 RUN cd etcdutl  && go build -trimpath -ldflags="-s -w" -o /out/etcdutl .
 
 FROM scratch
+ARG ETCD_VERSION
+LABEL org.opencontainers.image.title="weft-etcd" \
+      org.opencontainers.image.description="openweft 4-arch build of etcd-io/etcd" \
+      org.opencontainers.image.version="${ETCD_VERSION}" \
+      org.opencontainers.image.source="https://github.com/openweft/weft-etcd" \
+      org.opencontainers.image.url="https://github.com/openweft/weft-etcd" \
+      org.opencontainers.image.licenses="Apache-2.0"
 # distroless/static doesn't ship riscv64/loong64 manifests ; scratch
 # works on every arch buildkit can produce. We bring CA certs +
 # /etc/passwd (for "nobody") + tzdata across explicitly.
