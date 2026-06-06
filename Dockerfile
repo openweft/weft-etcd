@@ -23,7 +23,12 @@ RUN cd server   && go build -trimpath -ldflags="-s -w" -o /out/etcd    .
 RUN cd etcdctl  && go build -trimpath -ldflags="-s -w" -o /out/etcdctl .
 RUN cd etcdutl  && go build -trimpath -ldflags="-s -w" -o /out/etcdutl .
 
-FROM gcr.io/distroless/static-debian12:nonroot
+FROM scratch
+# distroless/static doesn't ship riscv64/loong64 manifests ; scratch
+# works on every arch buildkit can produce. We bring CA certs +
+# /etc/passwd (for "nobody") + tzdata across explicitly.
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /out/etcd    /usr/local/bin/etcd
 COPY --from=builder /out/etcdctl /usr/local/bin/etcdctl
 COPY --from=builder /out/etcdutl /usr/local/bin/etcdutl
