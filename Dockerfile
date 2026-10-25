@@ -5,11 +5,11 @@
 #
 # Build :
 #   docker buildx build --platform=linux/amd64,linux/arm64,linux/riscv64,linux/loong64 \
-#     --build-arg ETCD_VERSION=v3.6.0 \
-#     -t ghcr.io/openweft/weft-etcd:v3.6.0 .
+#     --build-arg ETCD_VERSION=v3.6.16 \
+#     -t ghcr.io/openweft/weft-etcd:v3.6.16 .
 
-ARG ETCD_VERSION=v3.6.0
-ARG GO_VERSION=1.23
+ARG ETCD_VERSION=v3.6.16
+ARG GO_VERSION=1.27.2
 
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-bookworm AS builder
 ARG ETCD_VERSION TARGETOS TARGETARCH
